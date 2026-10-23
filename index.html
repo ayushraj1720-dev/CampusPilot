@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CampusPilot</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>CampusPilot</h1>
+      <p>Student planning assistant</p>
+    </div>
+    <dl class="stats" aria-label="Task summary">
+      <div><dt>Open tasks</dt><dd id="stat-open">0</dd></div>
+      <div><dt>Due in 24 h</dt><dd id="stat-soon">0</dd></div>
+      <div><dt>Overdue</dt><dd id="stat-overdue">0</dd></div>
+      <div><dt>Planned</dt><dd id="stat-planned">0 min</dd></div>
+    </dl>
+  </header>
+
+  <p id="storage-warning" class="notice" hidden>
+    This browser is blocking local storage, so your tasks will not survive a refresh.
+  </p>
+
+  <main class="layout">
+    <section class="panel area-chat" aria-labelledby="chat-title">
+      <h2 id="chat-title">Planner chat</h2>
+      <p class="hint">A student planning assistant that coordinates task and scheduling tools through a self-hosted MCP server.</p>
+      <div id="mcp-status" class="assistant-mode"><span class="status-dot"></span><span><strong>Connecting to MCP server…</strong></span></div>
+      <div class="quick-prompts" aria-label="Example planning requests">
+        <button type="button" class="prompt-chip" data-request="Plan my evening in 3 hours">Next 3 hours</button>
+        <button type="button" class="prompt-chip" data-request="Plan the next 90 minutes">90 minutes</button>
+        <button type="button" class="prompt-chip" data-request="Plan my day">Rest of today</button>
+        <button type="button" class="prompt-chip" data-request="What should I do first?">What first?</button>
+      </div>
+      <div id="chat-log" class="chat-log" role="log" aria-live="polite"></div>
+      <details class="tool-panel" open>
+        <summary>Assistant activity <span>live MCP tool calls</span></summary>
+        <ol id="tool-trace" class="tool-trace" aria-live="polite">
+          <li class="tool-idle">MCP connection activity will appear here.</li>
+        </ol>
+      </details>
+      <div class="chat-footer"><button type="button" id="reset-demo" class="btn small">Reset demo tasks</button><span>Demo data stays on this computer.</span></div>
+      <form id="chat-form" class="chat-form" novalidate>
+        <label for="chat-input" class="sr-only">Planning request</label>
+        <input id="chat-input" type="text" autocomplete="off" maxlength="200" placeholder="Plan my evening in 3 hours">
+        <button type="submit" class="btn primary">Send</button>
+      </form>
+    </section>
+
+    <section class="panel area-schedule" aria-labelledby="schedule-title">
+      <h2 id="schedule-title">Daily schedule</h2>
+      <p id="schedule-window" class="hint"></p>
+      <div id="schedule-body" class="scroll"></div>
+    </section>
+
+    <section class="panel area-tasks" aria-labelledby="tasks-title">
+      <h2 id="tasks-title">Tasks</h2>
+      <form id="task-form" class="task-form" novalidate>
+        <input type="hidden" id="task-id">
+        <div class="field">
+          <label for="task-title">Task</label>
+          <input id="task-title" type="text" maxlength="80" autocomplete="off" placeholder="What needs to get done?">
+        </div>
+        <div class="field">
+          <label for="task-deadline">Deadline</label>
+          <input id="task-deadline" type="datetime-local">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="task-duration">Minutes needed</label>
+            <input id="task-duration" type="number" min="5" max="480" step="5" value="45">
+          </div>
+          <div class="field">
+            <label for="task-priority">Priority</label>
+            <select id="task-priority">
+              <option value="high">High</option>
+              <option value="medium" selected>Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+        </div>
+        <p id="task-error" class="error" role="alert"></p>
+        <div class="form-actions">
+          <button type="submit" id="task-submit" class="btn primary">Add task</button>
+          <button type="button" id="task-cancel" class="btn" hidden>Cancel edit</button>
+        </div>
+      </form>
+      <ul id="task-list" class="task-list scroll"></ul>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

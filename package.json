@@ -1,0 +1,17 @@
+{
+  "name": "campuspilot-mcp",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "description": "Student planning assistant with a self-hosted MCP server over Streamable HTTP",
+  "scripts": {
+    "start": "node server.js",
+    "test:mcp": "node test-mcp.mjs"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "express": "^5.1.0",
+    "zod": "^3.25.0"
+  }
+}
